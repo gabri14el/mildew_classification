@@ -1,0 +1,4 @@
+mlflow/
+*.pth
+__pycache__/
+mlruns/
