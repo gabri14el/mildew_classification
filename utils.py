@@ -46,8 +46,12 @@ def plot_confusion_matrix_sns(cm, classes,
     vmin = np.min(cm)
     vmax = np.max(cm)
     off_diag_mask = np.eye(*cm.shape, dtype=bool)
-    fig_size = len(classes) * 1.2
-    fig = plt.figure(figsize=(30, 30))
+    if(len(classes) < 20):
+      figsize = len(classes)
+    else:
+       figsize = 0.65*len(classes)
+       
+    fig = plt.figure(figsize=(figsize, figsize))
 
     sns.heatmap(df_cm, annot=True,cmap="OrRd")
 
@@ -68,7 +72,12 @@ def plot_confusion_matrix(cm, classes,
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
     """
-    fig = plt.figure(figsize=(30, 30))
+    if(len(classes) < 20):
+      figsize = len(classes)
+    else:
+       figsize = 0.65*len(classes)
+
+    fig = plt.figure(figsize=(figsize, figsize))
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
     plt.title(title)
     plt.colorbar()
@@ -124,6 +133,8 @@ def confusion_matrix(test_data_generator, model, return_fig=False, class_labels=
   
   if class_labels == None:
     class_labels = [str(x) for x in np.unique(true_classes)]
+  
+  nb_classes = len(class_labels)
   #print(class_labels)  
   #print(len(true_classes))
   report = metrics.classification_report(true_classes, predicted_classes, target_names=class_labels, digits=4)

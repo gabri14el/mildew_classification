@@ -26,14 +26,14 @@ from timm.loss import LabelSmoothingCrossEntropy, SoftTargetCrossEntropy
 from timm.utils import accuracy
 
 
-num_epochs = 50*2
+num_epochs = 1*2
 
 #dataset_path = '/mnt/c/Users/Gabriel/Downloads/castas-huge2-split'
 #dataset_path = '/mnt/c/Users/Gabriel/Downloads/Castas-Dataset-V2-split'
 #dataset_path = '/media/gabriel/7739-DDF5/Gabriel/Downloads/castas/Castas-Dataset-V2-newSplit/'
 #dataset_path = '/home/gabriel/Downloads/castas-huge2-split/'
 dataset_path = '/mnt/c/Users/Gabriel/Downloads/DatasetMildioESA/all'
-batch_size = 24
+batch_size = 16
 input_size = 224
 experiment_name = "all"
 model_function = vit_b_16
@@ -56,8 +56,8 @@ smoothing = 0.1
 #models = [resnet50, swin_transformer.swin_t, mobilenet_v3_large, efficientnet_b4, maxvit_t, convnext_tiny, vit_b_16, densenet121]
 #tops = ['fc', 'head', 'classifier', 'classifier', 'classifier', 'classifier', 'heads']
 
-models = [maxvit_t, convnext_tiny, vit_b_16, densenet121]
-tops = [ 'classifier', 'classifier', 'heads', 'classifier']
+models = [efficientnet_b4, maxvit_t, convnext_tiny, vit_b_16, densenet121]
+tops = [ 'classifier', 'classifier', 'classifier', 'heads', 'classifier']
 
 
 class GaussianBlur(object):
@@ -441,7 +441,7 @@ for i, model_function in enumerate(models):
     
     classes = list(test_ds.class_to_idx.keys())
     classes_alias = {'tinto cao': 'TC', 'tinta francisca': 'TF', 'alicante': 'AC', 'alveralhao': 'AV', 'arinto': 'AT', 'bastardo': 'BT', 'boal': 'BA', 'cabernet franc': 'CF', 'cabernet sauvignon': 'CS', 'carignon noir': 'CN', 'cercial': 'CC', 'chardonnay': 'CD', 'codega': 'CG', 'codega do larinho': 'CR', 'cornifesto': 'CT', 'donzelinho': 'DZ', 'donzelinho branco': 'DB', 'donzelinho tinto': 'DT', 'esgana cao': 'EC', 'fernao pires': 'FP', 'folgasao': 'FG', 'gamay': 'GM', 'gouveio': 'GV', 'malvasia corada': 'MC', 'malvasia fina': 'MF', 'malvasia preta': 'MP', 'malvasia rei': 'MR', 'merlot': 'ML', 'moscatel galego': 'MG', 'moscatel galego roxo': 'MX', 'mourisco tinto': 'MT', 'pinot blanc': 'PB', 'rabigato': 'RB', 'rufete': 'RF', 'samarrinho': 'SM', 'sauvignon blanc': 'SB', 'sousao': 'SS', 'tinta amarela': 'TA', 'tinta barroca': 'TB', 'tinta femea': 'TM', 'tinta roriz': 'TR', 'touriga francesa': 'TS', 'touriga nacional': 'TN', 'viosinho': 'VO'}
-    report, report_dict = utils.confusion_matrix(test_loader, model, class_labels=classes,mode='pytorch', sns=True, normalize=True)
+    report, report_dict = utils.confusion_matrix(test_loader, model, class_labels=classes,mode='pytorch', sns=True, normalize=False)
 
     mlflow.log_param("batch_size", batch_size)
     mlflow.log_param("dim", input_size)
